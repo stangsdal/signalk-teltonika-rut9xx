@@ -104,7 +104,8 @@ async function main(): Promise<void> {
       const response = await request('GET', endpoint.path, token);
       const ok = (response.status ?? 500) >= 200 && (response.status ?? 500) < 300 && response.data?.success !== false;
       console.log(JSON.stringify(endpoint.path, null, 2));
-      console.log(JSON.stringify(response.data, null, 2));
+      // Keep captures on disk (after sanitization) without echoing raw API
+      // responses, which may contain fields that should not enter logs.
       capabilities.push({ name: endpoint.name, path: endpoint.path, method: 'GET', httpStatus: response.status, supported: ok });
       if (ok) {
         const existing = captures.get(endpoint.file) ?? { capturedAt: new Date().toISOString(), endpoints: {} };

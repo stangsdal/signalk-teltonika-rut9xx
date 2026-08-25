@@ -5,6 +5,7 @@ export interface TeltonikaResponse<T> {
   success?: boolean;
 }
 
+/** Normalized values exposed by the RUT906 read-only poll. */
 export interface Rut906Snapshot {
   device?: { model?: string; hardwareRevision?: string; bootloader?: string };
   system?: { uptimeSeconds?: number; localTime?: number; memory?: Record<string, number>; load?: Record<string, number> };

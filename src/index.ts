@@ -13,6 +13,8 @@ module.exports = function rut906Plugin(app: any) {
     },
     start: (options: any) => {
       client = new TeltonikaClient({ host: options.host, username: options.username, password: options.password, port: options.port, timeoutMs: options.timeoutMs, rejectUnauthorized: options.rejectUnauthorized });
+      // Optional or permission-restricted endpoints must not stop the other
+      // read-only diagnostics from being published.
       const safeGet = async (path: string) => {
         try { return await client.get<any>(path); } catch { return undefined; }
       };
@@ -22,6 +24,8 @@ module.exports = function rut906Plugin(app: any) {
             safeGet('/api/system/device/status'), safeGet('/api/system/device/usage/status'), safeGet('/api/modems/status'), safeGet('/api/messages/storage/status'), safeGet('/api/messages/status'), safeGet('/api/gps/position/status')
           ]);
           const snapshot = mapSnapshot(device, usage, modems, smsStorage, smsMessages, gps);
+          // One stable source label keeps router diagnostics and GNSS values
+          // identifiable when Signal K reconciles multiple data sources.
           app.handleMessage(plugin.id, { updates: [{ source: { label: 'teltonika.rut906' }, values: snapshotToUpdates(snapshot) }] });
           app.setPluginStatus?.('Running');
         } catch (error: any) { app.setPluginError?.(`RUT906 read-only poll failed: ${error.message}`); }

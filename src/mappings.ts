@@ -1,5 +1,10 @@
 import type { Rut906Snapshot, SignalKUpdate } from './types';
 
+/** Convert raw RUTOS responses into a transport-independent diagnostic snapshot.
+ *
+ * RutOS returns many numeric fields as strings, so GPS values are normalized
+ * here before they reach Signal K. Missing optional endpoints remain harmless.
+ */
 export function mapSnapshot(device: any, usage: any, modems: any[], smsStorage: any[], smsMessages: any[], gps: any): Rut906Snapshot {
   const modem = modems?.[0] ?? {};
   const storage = smsStorage?.[0] ?? {};
@@ -66,6 +71,9 @@ export function snapshotToUpdates(snapshot: Rut906Snapshot): SignalKUpdate[] {
   add(updates, `${base}.sms.messageCount`, snapshot.sms?.messageCount);
   add(updates, `${base}.gps.available`, snapshot.gps?.available);
   if (snapshot.gps?.available) {
+    // Signal K positions are decimal degrees; speed is metres per second.
+    // RutOS accuracy is published as the GNSS horizontal dilution value used
+    // by the existing RUT906 API capture.
     add(updates, 'navigation.position.latitude', snapshot.gps.latitude);
     add(updates, 'navigation.position.longitude', snapshot.gps.longitude);
     add(updates, 'navigation.gnss.altitude', snapshot.gps.altitudeMeters);
