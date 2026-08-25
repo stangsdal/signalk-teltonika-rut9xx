@@ -1,0 +1,24 @@
+{
+  "name": "signalk-teltonika-rut906",
+  "version": "0.1.0",
+  "description": "Read-only Signal K integration for Teltonika RUT906",
+  "author": "Peter Kristensen <peter@stangsdal.dk>",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "keywords": [
+    "signalk-node-server-plugin"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "build:capture": "tsc -p scripts/tsconfig.json",
+    "capture": "npm run build:capture && node dist/scripts/capture-rut906-api.js",
+    "test": "npm run build && node --test test/*.test.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "@types/node": "^26.3.0",
+    "typescript": "^5.0.0"
+  }
+}

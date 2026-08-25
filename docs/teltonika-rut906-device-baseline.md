@@ -19,9 +19,10 @@ number, IMEI and MAC addresses are intentionally not stored in the repository.
 - Reported load average: `0.74, 0.79, 0.85`
 - Reported local device time: `2026-09-28 10:26:22`
 
-The reported router time is later than the project environment date at the
-time of capture. Verify NTP/timezone configuration before using router
-timestamps as authoritative Signal K timestamps.
+The router clock was subsequently corrected. The current project state is
+that the router date is `2026-08-24`; the timestamp above remains the time of
+the original baseline capture. Verify NTP/timezone status in the API evidence
+before using router timestamps as authoritative Signal K timestamps.
 
 ## Internal modem
 

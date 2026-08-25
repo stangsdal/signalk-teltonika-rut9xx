@@ -1,0 +1,8 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "../dist/scripts"
+  },
+  "include": ["capture-rut906-api.ts"]
+}

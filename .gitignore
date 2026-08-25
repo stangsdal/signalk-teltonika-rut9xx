@@ -1,0 +1,5 @@
+# Runtime API evidence may contain device-specific values. Commit only after review.
+docs/teltonika-rut906-api-evidence/*.json
+!docs/teltonika-rut906-api-evidence/.gitkeep
+node_modules/
+dist/
